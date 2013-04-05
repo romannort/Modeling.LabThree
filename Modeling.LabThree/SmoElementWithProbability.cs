@@ -12,7 +12,7 @@ namespace Modeling.LabThree
 
         public UInt16 State { get; set; }
 
-        public Boolean this[ Int32 index]
+        public Boolean this[Int32 index]
         {
             get
             {
