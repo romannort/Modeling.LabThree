@@ -4,15 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9847B56A-2CE8-4EC2-8571-788471052A27}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{85263170-2F2B-4796-84D0-C6C948CD88D8}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Modeling.LabThree</RootNamespace>
-    <AssemblyName>Modeling.LabThree</AssemblyName>
+    <RootNamespace>Modeling.LabThree.Console</RootNamespace>
+    <AssemblyName>Modeling.LabThree.Console</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,6 +23,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -39,14 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISmsElement.cs" />
-    <Compile Include="Sms.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsElementBase.cs" />
-    <Compile Include="SmsServiceElement.cs" />
-    <Compile Include="SmsElementContainer.cs" />
-    <Compile Include="SmsState.cs" />
-    <Compile Include="StatisticResults.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Modeling.LabThree\Modeling.LabThree.csproj">
+      <Project>{9847b56a-2ce8-4ec2-8571-788471052a27}</Project>
+      <Name>Modeling.LabThree</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
