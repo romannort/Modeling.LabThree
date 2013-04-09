@@ -35,13 +35,13 @@ namespace Modeling.LabThree
 
         public static SmsElementContainer operator --(SmsElementContainer o)
         {
-            if (o.State != SmsElementState.Empty)
+            if (o.State != SmsElementState.Free)
             {
                 o.currentCapacity--;
             }
             if (o.currentCapacity == 0)
             {
-                o.State = SmsElementState.Empty;
+                o.State = SmsElementState.Free;
             }
             return o;
         }

@@ -8,7 +8,7 @@ namespace Modeling.LabThree
 {
     public class SmsServiceElement : SmsElementBase
     {
-        public Decimal Probability { get; set; }
+        public Double Probability { get; set; }
 
         public Boolean this[UInt32 index]
         {
@@ -34,7 +34,7 @@ namespace Modeling.LabThree
         {
             this.lastIndex = index;
             Boolean result = false;
-            Decimal currentProbability = CalculateGeometricDistribution(index);
+            Double currentProbability = CalculateGeometricDistribution(index);
             if (currentProbability >= this.Probability)
             {
                 result = true;
@@ -46,13 +46,20 @@ namespace Modeling.LabThree
         /// Calculates geometric distribution for real probability.
         /// </summary>
         /// <param name="index"></param>
-        /// <returns></returns>
-        private static Decimal CalculateGeometricDistribution(UInt32 index)
+        /// <returns></returns>4
+        private static Double CalculateGeometricDistribution(UInt32 index)
         {
             Random r = new Random((Int32)index);
             Double probability = r.NextDouble();
             Double result = Math.Pow(1 - probability, index - 1) * probability;
-            return (Decimal)result;
+            return result;
+        }
+
+        private static Double CalculateGeometricDistribution()
+        {
+            Random r = new Random();
+            Double probability = r.NextDouble();
+            return probability;
         }
     }
 }

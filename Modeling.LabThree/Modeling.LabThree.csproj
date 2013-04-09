@@ -46,6 +46,7 @@
     <Compile Include="SmsServiceElement.cs" />
     <Compile Include="SmsElementContainer.cs" />
     <Compile Include="SmsState.cs" />
+    <Compile Include="SmsStateKey.cs" />
     <Compile Include="StatisticResults.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

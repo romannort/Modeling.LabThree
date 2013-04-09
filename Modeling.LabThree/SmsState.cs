@@ -16,15 +16,15 @@ namespace Modeling.LabThree
 
         private UInt32 taktsCount;
 
-        public ICollection<SmsElementState> ElementsStates { get; private set; }
+        public SmsStateKey Key { get; private set; }
 
         public String Code { get; private set; }
 
-        public Decimal Probability
+        public Double Probability
         {
             get
             {
-                return (Decimal)taktsCount / TotalTaktsCount;
+                return (Double)taktsCount / TotalTaktsCount;
             }
         }
 
@@ -32,11 +32,7 @@ namespace Modeling.LabThree
         public SmsState( String code, params SmsElementState[] elements )
         {
             this.Code = code;
-            ElementsStates = new List<SmsElementState>();
-            foreach( SmsElementState e in elements )
-            {
-                ElementsStates.Add(e);
-            }
+            this.Key = new SmsStateKey(elements);
         }
 
 

@@ -16,17 +16,17 @@ namespace Modeling.LabThree
         /// <summary>
         /// 
         /// </summary>
-        public Decimal P1 { get; set; }
+        public Double P1 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Decimal P2 { get; set; }
+        public Double P2 { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public Decimal R { get; set; }
+        public Double R { get; set; }
 
         public UInt32 ContainerCapacity { get; set; }
 
@@ -48,7 +48,7 @@ namespace Modeling.LabThree
                     channelTwo.State = SmsElementState.Free;
                 }
                 // Container non empty
-                if (container.State != SmsElementState.Empty &&
+                if (container.State != SmsElementState.Free &&
                     channelTwo.State == SmsElementState.Free)
                 {
                     --container;
@@ -94,7 +94,7 @@ namespace Modeling.LabThree
                 }
                 else
                 {
-                    emitter.State = SmsElementState.Empty;
+                    emitter.State = SmsElementState.Free;
                 }
                 result.Add(container, emitter, channelOne, channelTwo);
             }

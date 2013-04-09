@@ -17,7 +17,6 @@ namespace Modeling.LabThree
         Blocked,
         Busy,
         // For Container elements
-        Empty,
         Full,
         NotFull
     }

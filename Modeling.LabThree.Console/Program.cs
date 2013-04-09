@@ -13,18 +13,18 @@ namespace Modeling.LabThree.Console
             Sms sms = new Sms()
             {
                 ContainerCapacity = 1,
-                P1 = 0.7M,
-                P2 = 0.7M,
-                R = 0.5M,
-                TotalCount = 1000
+                P1 = 0.3,
+                P2 = 0.2,
+                R = 0.2,
+                TotalCount = 10000
             };
 
             StatisticResults result = sms.Emulate();
-            IDictionary<String, Decimal> probabilities = result.StateProbabilities();
-            
+            IDictionary<String, Double> probabilities = result.StateProbabilities();
+            Print(probabilities);
         }
 
-        private void Print(IDictionary<String, Decimal> probabilities)
+        private static void Print(IDictionary<String, Double> probabilities)
         {
             foreach (var element in probabilities)
             {
