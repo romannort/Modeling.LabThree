@@ -34,8 +34,10 @@ namespace Modeling.LabThree
         {
             this.lastIndex = index;
             Boolean result = false;
-            Double currentProbability = CalculateGeometricDistribution(index);
-            if (currentProbability >= this.Probability)
+            //Double currentProbability = CalculateGeometricDistribution();//index);
+            Double r = new Random().NextDouble();
+
+            if (r > Probability)
             {
                 result = true;
             }
@@ -47,10 +49,9 @@ namespace Modeling.LabThree
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>4
-        private static Double CalculateGeometricDistribution(UInt32 index)
+        private Double CalculateGeometricDistribution(UInt32 index)
         {
-            Random r = new Random((Int32)index);
-            Double probability = r.NextDouble();
+            Double probability = 1 - Probability;
             Double result = Math.Pow(1 - probability, index - 1) * probability;
             return result;
         }

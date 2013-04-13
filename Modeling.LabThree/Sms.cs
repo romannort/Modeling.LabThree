@@ -41,7 +41,9 @@ namespace Modeling.LabThree
             
             for (UInt32 takt = 1; takt < this.TotalCount; ++takt)
             {
-                //
+
+                result.Add(container, emitter, channelOne, channelTwo);
+
                 if (channelTwo.State == SmsElementState.Busy &&
                     channelTwo[takt])
                 {
@@ -80,12 +82,29 @@ namespace Modeling.LabThree
                         }
                     }
                 }
+                if (channelOne.State == SmsElementState.Blocked)
+                {
+                    if (channelTwo.State == SmsElementState.Free)
+                    {
+                        channelTwo.State = SmsElementState.Busy;
+                        channelOne.State = SmsElementState.Free;
+                    }
+                    else
+                    {
+                        if (container.State != SmsElementState.Full)
+                        {
+                            ++container;
+                            channelOne.State = SmsElementState.Free;
+                        }
+                    }
+                }
                 // 
                 if (emitter[takt])
                 {
                     if (channelOne.State == SmsElementState.Free)
                     {
                         channelOne.State = SmsElementState.Busy;
+                        emitter.State = SmsElementState.Free;
                     }
                     else
                     {
@@ -96,7 +115,6 @@ namespace Modeling.LabThree
                 {
                     emitter.State = SmsElementState.Free;
                 }
-                result.Add(container, emitter, channelOne, channelTwo);
             }
 
             return result;

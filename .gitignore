@@ -161,3 +161,7 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+
+#Visual Studio 2012 Code Map files
+*.dgml

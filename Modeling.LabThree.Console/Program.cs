@@ -13,23 +13,25 @@ namespace Modeling.LabThree.Console
             Sms sms = new Sms()
             {
                 ContainerCapacity = 1,
-                P1 = 0.3,
-                P2 = 0.2,
-                R = 0.2,
-                TotalCount = 10000
+                P1 = 0.7,
+                P2 = 0.7,
+                R = 0.75,
+                TotalCount = 300000
             };
 
             StatisticResults result = sms.Emulate();
-            IDictionary<String, Double> probabilities = result.StateProbabilities();
-            Print(probabilities);
+            Print(result);
         }
 
-        private static void Print(IDictionary<String, Double> probabilities)
+        private static void Print(StatisticResults result)
         {
+            IDictionary<String, Double> probabilities = result.StateProbabilities();
             foreach (var element in probabilities)
             {
                 System.Console.WriteLine("{0} {1}",element.Key, element.Value);
             }
+            System.Console.WriteLine("Emitter blocking probability: {0}", result.EmitterBlockingProbability );
+            System.Console.WriteLine("Average container content: {0}", result.AverageContainerContent);
         }
     }
 }

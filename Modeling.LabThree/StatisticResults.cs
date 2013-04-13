@@ -8,6 +8,11 @@ namespace Modeling.LabThree
 {
     public class StatisticResults
     {
+
+        private UInt32 emitterBlockedTakts = 0;
+
+        private ICollection<Int32> containerContentLength = new List<Int32>();
+
         private ISet<SmsState> SmsStates = new HashSet<SmsState>()
         {
             new SmsState("0000", SmsElementState.Free, SmsElementState.Free, SmsElementState.Free, SmsElementState.Free),
@@ -24,11 +29,34 @@ namespace Modeling.LabThree
         };
 
 
+        public Double AverageContainerContent
+        {
+            get
+            {
+                return containerContentLength.Average();
+            }
+        }
+
+
+        public Double EmitterBlockingProbability
+        {
+            get
+            {
+                return (Double)emitterBlockedTakts / SmsState.TotalTaktsCount;
+            }
+        }
+
         internal void Add(params ISmsElement[] elements)
         {
             SmsStateKey key = new SmsStateKey(elements.Select(e => e.State).ToList());
             SmsState currentState = SmsStates.FirstOrDefault(state => state.Key.Equals(key)); 
             currentState++;
+
+            containerContentLength.Add(Int32.Parse(currentState.Code[0].ToString()));
+            if (currentState.Code[1] == '1')
+            {
+                ++emitterBlockedTakts;
+            }
         }
 
         private IList<SmsElementState> BuildStateKey(ICollection<ISmsElement> elements)
@@ -54,7 +82,7 @@ namespace Modeling.LabThree
 }
 
 
-// j t0 t1 t2 t3
+// j t0 t1 t2
 // j - container
 // t0 - emitter
 // t1 - 1st channel
