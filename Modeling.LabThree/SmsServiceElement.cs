@@ -3,41 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modeling.LabThree.Generator;
 
 namespace Modeling.LabThree
 {
     public class SmsServiceElement : SmsElementBase
     {
-        public Double Probability { get; set; }
-
-        public Boolean this[UInt32 index]
-        {
-            get
-            {
-                if (lastIndex != index)
-                {
-                    done = IsDone(index);
-                }
-                return done;
-            }
-        }
-
-        private UInt32 lastIndex = 0;
-
-        private Boolean done = false;
+        /// <summary>
+        /// 
+        /// </summary>
+        protected ICollection<Int32> timeIntervals;
 
         /// <summary>
-        /// Calcualte Done value.
+        /// 
         /// </summary>
-        /// <param name="index"></param>
-        private Boolean IsDone(UInt32 index)
-        {
-            this.lastIndex = index;
-            Boolean result = false;
-            //Double currentProbability = CalculateGeometricDistribution();//index);
-            Double r = new Random().NextDouble();
+        protected Int32 currentTimeInterval = 0;
 
-            if (r > Probability)
+        /// <summary>
+        /// 
+        /// </summary>
+        protected Int32 nextTimeIntervalIndex = 0;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="probability"></param>
+        protected SmsServiceElement(Double probability)
+        {
+            timeIntervals = ExponentialDistribution.Generate(probability);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public virtual Boolean IsDone()
+        {
+            Boolean result = false;
+            if (currentTimeInterval == 0)
             {
                 result = true;
             }
@@ -45,22 +48,15 @@ namespace Modeling.LabThree
         }
 
         /// <summary>
-        /// Calculates geometric distribution for real probability.
+        /// 
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>4
-        private Double CalculateGeometricDistribution(UInt32 index)
+        public void UpdateTime()
         {
-            Double probability = 1 - Probability;
-            Double result = Math.Pow(1 - probability, index - 1) * probability;
-            return result;
+            if (State != SmsElementState.Blocked)
+            {
+                currentTimeInterval--;
+            }
         }
 
-        private static Double CalculateGeometricDistribution()
-        {
-            Random r = new Random();
-            Double probability = r.NextDouble();
-            return probability;
-        }
     }
 }

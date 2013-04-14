@@ -16,7 +16,7 @@ namespace Modeling.LabThree.Console
                 P1 = 0.7,
                 P2 = 0.7,
                 R = 0.75,
-                TotalCount = 300000
+                TotalCount = 500000
             };
 
             StatisticResults result = sms.Emulate();

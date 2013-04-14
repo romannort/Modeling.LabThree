@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Modeling.LabThree.Generator;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -28,24 +29,29 @@ namespace Modeling.LabThree
         /// </summary>
         public Double R { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public UInt32 ContainerCapacity { get; set; }
 
         public StatisticResults Emulate()
         {
-            StatisticResults result = new StatisticResults();
-            SmsState.TotalTaktsCount = TotalCount;
-            SmsServiceElement channelOne = new SmsServiceElement() { Probability = this.P1 };
-            SmsServiceElement channelTwo = new SmsServiceElement() { Probability = this.P2};
-            SmsServiceElement emitter = new SmsServiceElement() { Probability = this.R };
+
+            StatisticResults result = new StatisticResults();            
+            GeneratorBase.DesiredSize = TotalCount;
+            SmsChannelElement channelOne = new SmsChannelElement(this.P1);
+            SmsChannelElement channelTwo = new SmsChannelElement(this.P2);
+            SmsEmitterElement emitter = new SmsEmitterElement(this.R);
             SmsElementContainer container = new SmsElementContainer(ContainerCapacity);
-            
-            for (UInt32 takt = 1; takt < this.TotalCount; ++takt)
+
+            UInt32 totalTaktsCount = 0;
+            while( emitter.NoRequests() == false )
             {
 
                 result.Add(container, emitter, channelOne, channelTwo);
 
                 if (channelTwo.State == SmsElementState.Busy &&
-                    channelTwo[takt])
+                    channelTwo.IsDone())
                 {
                     channelTwo.State = SmsElementState.Free;
                 }
@@ -54,18 +60,18 @@ namespace Modeling.LabThree
                     channelTwo.State == SmsElementState.Free)
                 {
                     --container;
-                    channelTwo.State = SmsElementState.Busy;
+                    channelTwo.TakeRequest();
                 }
                 // request in channel One
                 if (channelOne.State == SmsElementState.Busy)
                 {
                     // request processed
-                    if (channelOne[takt])
+                    if (channelOne.IsDone())
                     {
                         // Check channel Two is it free.
                         if (channelTwo.State == SmsElementState.Free)
                         {
-                            channelTwo.State = SmsElementState.Busy;
+                            channelTwo.TakeRequest();
                             channelOne.State = SmsElementState.Free;
                         }
                         else
@@ -86,7 +92,7 @@ namespace Modeling.LabThree
                 {
                     if (channelTwo.State == SmsElementState.Free)
                     {
-                        channelTwo.State = SmsElementState.Busy;
+                        channelTwo.TakeRequest();
                         channelOne.State = SmsElementState.Free;
                     }
                     else
@@ -99,11 +105,11 @@ namespace Modeling.LabThree
                     }
                 }
                 // 
-                if (emitter[takt])
+                if (emitter.IsDone())
                 {
                     if (channelOne.State == SmsElementState.Free)
                     {
-                        channelOne.State = SmsElementState.Busy;
+                        channelOne.TakeRequest();
                         emitter.State = SmsElementState.Free;
                     }
                     else
@@ -115,8 +121,15 @@ namespace Modeling.LabThree
                 {
                     emitter.State = SmsElementState.Free;
                 }
+
+                channelOne.UpdateTime();
+                channelTwo.UpdateTime();
+                emitter.UpdateTime();
+                ++totalTaktsCount;
             }
 
+
+            SmsState.TotalTaktsCount = totalTaktsCount;
             return result;
         }
 
