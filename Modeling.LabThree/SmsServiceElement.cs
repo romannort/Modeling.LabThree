@@ -50,7 +50,7 @@ namespace Modeling.LabThree
         /// <summary>
         /// 
         /// </summary>
-        public void UpdateTime()
+        public virtual void UpdateTime()
         {
             if (State != SmsElementState.Blocked)
             {

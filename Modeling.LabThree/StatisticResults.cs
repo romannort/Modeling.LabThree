@@ -16,11 +16,14 @@ namespace Modeling.LabThree
         private ISet<SmsState> SmsStates = new HashSet<SmsState>()
         {
             new SmsState("0000", SmsElementState.Free, SmsElementState.Free, SmsElementState.Free, SmsElementState.Free),
+            new SmsState("0100", SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Free, SmsElementState.Free),
             new SmsState("0010", SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy, SmsElementState.Free),
             new SmsState("0001", SmsElementState.Free, SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy),
+            new SmsState("0101", SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Free, SmsElementState.Busy),
             new SmsState("0011", SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy, SmsElementState.Busy),
             new SmsState("0110", SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Busy, SmsElementState.Free),
             new SmsState("1001", SmsElementState.Full, SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy),
+            new SmsState("1101", SmsElementState.Full, SmsElementState.Blocked, SmsElementState.Free, SmsElementState.Busy),
             new SmsState("0111", SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Busy, SmsElementState.Busy),
             new SmsState("1011", SmsElementState.Full, SmsElementState.Free, SmsElementState.Busy, SmsElementState.Busy),
             new SmsState("1111", SmsElementState.Full, SmsElementState.Blocked, SmsElementState.Busy, SmsElementState.Busy),

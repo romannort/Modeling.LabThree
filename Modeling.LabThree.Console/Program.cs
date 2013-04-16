@@ -12,7 +12,7 @@ namespace Modeling.LabThree.Console
         {
             Sms sms = new Sms()
             {
-                ContainerCapacity = 1,
+                ContainerCapacity = 2,
                 P1 = 0.7,
                 P2 = 0.7,
                 R = 0.75,

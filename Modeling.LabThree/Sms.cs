@@ -117,10 +117,6 @@ namespace Modeling.LabThree
                         emitter.State = SmsElementState.Blocked;
                     }
                 }
-                else
-                {
-                    emitter.State = SmsElementState.Free;
-                }
 
                 channelOne.UpdateTime();
                 channelTwo.UpdateTime();

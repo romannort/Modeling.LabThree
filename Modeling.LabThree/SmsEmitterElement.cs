@@ -31,6 +31,11 @@ namespace Modeling.LabThree
             return result;
         }
 
+        public override void UpdateTime()
+        {
+            --currentTimeInterval;
+        }
+
         public Boolean NoRequests()
         {
             return nextTimeIntervalIndex == timeIntervals.Count;
