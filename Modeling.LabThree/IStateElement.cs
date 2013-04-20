@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
-    public interface ISmsElement
+    public interface IStateElement
     {
         SmsElementState State { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,11 @@ namespace Modeling.LabThree
 {
     public class StatisticResults
     {
-
         private UInt32 emitterBlockedTakts = 0;
 
         private ICollection<Int32> containerContentLength = new List<Int32>();
+
+        private ISet<Transition> possibleTransitions = new HashSet<Transition>();
 
         private ISet<SmsState> SmsStates = new HashSet<SmsState>()
         {
@@ -49,12 +51,22 @@ namespace Modeling.LabThree
             }
         }
 
-        internal void Add(params ISmsElement[] elements)
+
+        private SmsState previousState;
+
+        internal void Add(params IStateElement[] elements)
         {
             SmsStateKey key = new SmsStateKey(elements.Select(e => e.State).ToList());
             SmsState currentState = SmsStates.FirstOrDefault(state => state.Key.Equals(key)); 
             currentState++;
+            AddTransition(currentState);
+            previousState = currentState;
+            RecordEmitterBlocks(currentState);
+        }
 
+
+        private void RecordEmitterBlocks(SmsState currentState)
+        {
             containerContentLength.Add(Int32.Parse(currentState.Code[0].ToString()));
             if (currentState.Code[1] == '1')
             {
@@ -62,10 +74,21 @@ namespace Modeling.LabThree
             }
         }
 
-        private IList<SmsElementState> BuildStateKey(ICollection<ISmsElement> elements)
+        
+        private void AddTransition(SmsState currentState)
+        {
+            possibleTransitions.Add(new Transition() 
+                {  
+                    From = previousState ?? currentState,
+                    To = currentState
+                }
+            );
+        }
+
+        private IList<SmsElementState> BuildStateKey(ICollection<IStateElement> elements)
         {
             IList<SmsElementState> key = new List<SmsElementState>();
-            foreach (ISmsElement se in elements)
+            foreach (IStateElement se in elements)
             {
                 key.Add(se.State);
             }
@@ -80,6 +103,20 @@ namespace Modeling.LabThree
                 result.Add(state.Code, state.Probability);
             }
             return result;
+        }
+
+
+        public void GenerateTransitionsTable(String filePath)
+        {
+            IList<String> output = new List<String>();
+            foreach (SmsState state in SmsStates)
+            {
+                IEnumerable<String> targetCodes = possibleTransitions
+                    .Where(t => t.From.Code.Equals(state.Code)).Select(t => t.To.Code);
+                String sourceLine = state.Code + " => " + String.Join(",", targetCodes.ToArray());
+                output.Add(sourceLine);
+            }
+            File.WriteAllLines(filePath, output.AsEnumerable());
         }
     }
 }

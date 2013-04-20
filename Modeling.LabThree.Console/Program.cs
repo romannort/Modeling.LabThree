@@ -12,7 +12,7 @@ namespace Modeling.LabThree.Console
         {
             Sms sms = new Sms()
             {
-                ContainerCapacity = 2,
+                ContainerCapacity = 1,
                 P1 = 0.7,
                 P2 = 0.7,
                 R = 0.75,
@@ -21,6 +21,7 @@ namespace Modeling.LabThree.Console
 
             StatisticResults result = sms.Emulate();
             Print(result);
+            result.GenerateTransitionsTable("output.table");
         }
 
         private static void Print(StatisticResults result)

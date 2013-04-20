@@ -7,7 +7,7 @@ using Modeling.LabThree.Generator;
 
 namespace Modeling.LabThree
 {
-    public class SmsServiceElement : SmsElementBase
+    public abstract class SmsElementWithProbability : SmsElementBase
     {
         /// <summary>
         /// 
@@ -28,7 +28,7 @@ namespace Modeling.LabThree
         /// 
         /// </summary>
         /// <param name="probability"></param>
-        protected SmsServiceElement(Double probability)
+        protected SmsElementWithProbability(Double probability)
         {
             timeIntervals = ExponentialDistribution.Generate(probability);
         }
@@ -57,6 +57,5 @@ namespace Modeling.LabThree
                 currentTimeInterval--;
             }
         }
-
     }
 }

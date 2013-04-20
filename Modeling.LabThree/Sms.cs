@@ -42,7 +42,7 @@ namespace Modeling.LabThree
             SmsChannelElement channelOne = new SmsChannelElement(this.P1);
             SmsChannelElement channelTwo = new SmsChannelElement(this.P2);
             SmsEmitterElement emitter = new SmsEmitterElement(this.R);
-            SmsElementContainer container = new SmsElementContainer(ContainerCapacity);
+            SmsContainerElement container = new SmsContainerElement(ContainerCapacity);
 
             UInt32 totalTaktsCount = 0;
             while( emitter.NoRequests() == false )

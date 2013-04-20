@@ -6,20 +6,21 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
-    public class SmsElementContainer : SmsElementBase
+    public class SmsContainerElement : SmsElementBase
     {
 
         private UInt32 maxCapacity;
 
         private UInt32 currentCapacity;
-
-        public SmsElementContainer(UInt32 maxCapacity)
+        
+        public SmsContainerElement(UInt32 maxCapacity)
         {
             this.maxCapacity = maxCapacity;
             currentCapacity = 0;
         }
 
-        public static SmsElementContainer operator++(SmsElementContainer o)
+        
+        public static SmsContainerElement operator++(SmsContainerElement o)
         {
             if (o.State != SmsElementState.Full)
             {
@@ -29,11 +30,15 @@ namespace Modeling.LabThree
             {
                 o.State = SmsElementState.Full;
             }
+            else
+            {
+                o.State = SmsElementState.NotFull;
+            }
             return o;
         }
 
 
-        public static SmsElementContainer operator --(SmsElementContainer o)
+        public static SmsContainerElement operator--(SmsContainerElement o)
         {
             if (o.State != SmsElementState.Free)
             {
@@ -42,6 +47,10 @@ namespace Modeling.LabThree
             if (o.currentCapacity == 0)
             {
                 o.State = SmsElementState.Free;
+            }
+            else
+            {
+                o.State = SmsElementState.NotFull;
             }
             return o;
         }

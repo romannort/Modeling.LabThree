@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
-    public abstract class SmsElementBase: ISmsElement
+    public abstract class SmsElementBase: IStateElement
     {
 
         public SmsElementState State

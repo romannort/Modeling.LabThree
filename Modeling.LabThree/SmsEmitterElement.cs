@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
-    public class SmsEmitterElement: SmsServiceElement
+    public class SmsEmitterElement: SmsElementWithProbability
     {
 
         public SmsEmitterElement(Double probability): base(probability)
