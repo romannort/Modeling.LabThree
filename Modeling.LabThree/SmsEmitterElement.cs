@@ -13,11 +13,10 @@ namespace Modeling.LabThree
         {
         }
 
-        private void EmitRequest()
+        public void EmitRequest()
         {
             currentTimeInterval = timeIntervals.ElementAt(nextTimeIntervalIndex);
             nextTimeIntervalIndex++;
-
         }
 
         public override bool IsDone()

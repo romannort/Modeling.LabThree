@@ -37,7 +37,7 @@ namespace Modeling.LabThree
         public StatisticResults Emulate()
         {
 
-            StatisticResults result = new StatisticResults();            
+            StatisticResults result = new StatisticResults();
             GeneratorBase.DesiredSize = TotalCount;
             SmsChannelElement channelOne = new SmsChannelElement(this.P1);
             SmsChannelElement channelTwo = new SmsChannelElement(this.P2);
@@ -45,9 +45,8 @@ namespace Modeling.LabThree
             SmsContainerElement container = new SmsContainerElement(ContainerCapacity);
 
             UInt32 totalTaktsCount = 0;
-            while( emitter.NoRequests() == false )
+            while (emitter.NoRequests() == false)
             {
-
                 result.Add(container, emitter, channelOne, channelTwo);
 
                 if (channelTwo.State == SmsElementState.Busy &&
@@ -63,33 +62,10 @@ namespace Modeling.LabThree
                     channelTwo.TakeRequest();
                 }
                 // request in channel One
-                if (channelOne.State == SmsElementState.Busy)
+                if ((channelOne.State == SmsElementState.Busy && channelOne.IsDone())
+                    || channelOne.State == SmsElementState.Blocked)
                 {
-                    // request processed
-                    if (channelOne.IsDone())
-                    {
-                        // Check channel Two is it free.
-                        if (channelTwo.State == SmsElementState.Free)
-                        {
-                            channelTwo.TakeRequest();
-                            channelOne.State = SmsElementState.Free;
-                        }
-                        else
-                        {
-                            if (container.State != SmsElementState.Full)
-                            {
-                                container++;
-                                channelOne.State = SmsElementState.Free;
-                            }
-                            else
-                            {
-                                channelOne.State = SmsElementState.Blocked;
-                            }
-                        }
-                    }
-                }
-                if (channelOne.State == SmsElementState.Blocked)
-                {
+                    // Check channel Two is it free.
                     if (channelTwo.State == SmsElementState.Free)
                     {
                         channelTwo.TakeRequest();
@@ -99,12 +75,18 @@ namespace Modeling.LabThree
                     {
                         if (container.State != SmsElementState.Full)
                         {
-                            ++container;
+                            container++;
                             channelOne.State = SmsElementState.Free;
                         }
+                        else
+                        {
+                            channelOne.State = SmsElementState.Blocked;
+                        }
                     }
+
                 }
-                // 
+
+
                 if (emitter.IsDone())
                 {
                     if (channelOne.State == SmsElementState.Free)
@@ -117,14 +99,28 @@ namespace Modeling.LabThree
                         emitter.State = SmsElementState.Blocked;
                     }
                 }
-
+                else
+                {
+                    if (emitter.State == SmsElementState.Blocked)
+                    {
+                        if (channelOne.State == SmsElementState.Free)
+                        {
+                            channelOne.TakeRequest();
+                            emitter.State = SmsElementState.Free;
+                            emitter.EmitRequest(); //___-
+                        }
+                        else
+                        {
+                            emitter.State = SmsElementState.Blocked;
+                        }
+                    }
+                }
+                
                 channelOne.UpdateTime();
                 channelTwo.UpdateTime();
                 emitter.UpdateTime();
                 ++totalTaktsCount;
             }
-
-
             SmsState.TotalTaktsCount = totalTaktsCount;
             return result;
         }

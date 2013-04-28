@@ -22,18 +22,7 @@ namespace Modeling.LabThree
         
         public static SmsContainerElement operator++(SmsContainerElement o)
         {
-            if (o.State != SmsElementState.Full)
-            {
-                o.currentCapacity++;
-            }
-            if (o.currentCapacity == o.maxCapacity)
-            {
-                o.State = SmsElementState.Full;
-            }
-            else
-            {
-                o.State = SmsElementState.NotFull;
-            }
+            Add(o);
             return o;
         }
 
@@ -53,6 +42,27 @@ namespace Modeling.LabThree
                 o.State = SmsElementState.NotFull;
             }
             return o;
+        }
+
+        protected override void TakeRequest()
+        {
+            Add(this);
+        }
+
+        private static void Add(SmsContainerElement o)
+        {
+            if (o.State != SmsElementState.Full)
+            {
+                o.currentCapacity++;
+            }
+            if (o.currentCapacity == o.maxCapacity)
+            {
+                o.State = SmsElementState.Full;
+            }
+            else
+            {
+                o.State = SmsElementState.NotFull;
+            }
         }
     }
 }

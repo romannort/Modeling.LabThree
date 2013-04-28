@@ -14,7 +14,7 @@ namespace Modeling.LabThree.Generator
         {
             SourceRealization = GeneratorBase.GenerateRealization();
             Double divLambda = -1 / lambda;
-            Func<Double,Int32> roundedValue = x => (Int32)(Math.Round(Math.Log(x) * divLambda)) + 1 ;
+            Func<Double, Int32> roundedValue = x => (Int32)(Math.Round(Math.Log(x) * divLambda)) + 1;
             ICollection<Int32> result = SourceRealization.Select(roundedValue).ToList();
             return result;
         }

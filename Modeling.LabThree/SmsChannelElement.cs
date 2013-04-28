@@ -14,11 +14,20 @@ namespace Modeling.LabThree
         {
         }
 
+        
         public void TakeRequest()
         {
             currentTimeInterval = timeIntervals.ElementAt(nextTimeIntervalIndex);
             nextTimeIntervalIndex++;
             State = SmsElementState.Busy;
+        }
+
+
+        public void Block()
+        {
+            currentTimeInterval = timeIntervals.ElementAt(nextTimeIntervalIndex);
+            nextTimeIntervalIndex++;
+            State = SmsElementState.Blocked;
         }
     }
 }
