@@ -9,25 +9,30 @@ namespace Modeling.LabThree
     public class SmsChannelElement: SmsElementWithProbability
     {
 
+        public override bool IsDone
+        {
+            get
+            {
+                Boolean result = State == SmsElementState.Busy;
+                if (result)
+                {
+                    return base.IsDone;
+                }
+                return result;
+            }
+        }
+
+        public Boolean IsFree
+        {
+            get
+            {
+                return State == SmsElementState.Free;
+            }
+        }
+
         public SmsChannelElement(Double probability)
             : base(probability)
         {
-        }
-
-        
-        public void TakeRequest()
-        {
-            currentTimeInterval = timeIntervals.ElementAt(nextTimeIntervalIndex);
-            nextTimeIntervalIndex++;
-            State = SmsElementState.Busy;
-        }
-
-
-        public void Block()
-        {
-            currentTimeInterval = timeIntervals.ElementAt(nextTimeIntervalIndex);
-            nextTimeIntervalIndex++;
-            State = SmsElementState.Blocked;
         }
     }
 }

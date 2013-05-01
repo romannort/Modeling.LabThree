@@ -29,11 +29,21 @@ namespace Modeling.LabThree
         }
 
 
-        public SmsState( String code, params SmsElementState[] elements )
+        public SmsState( String code, params SmsElementState[] elements ): this(elements)
         {
             this.Code = code;
+        }
+
+        public SmsState(params SmsElementState[] elements)
+        {
             this.Key = new SmsStateKey(elements);
         }
+
+        //public SmsState(SmsStateKey key)
+        //{
+        //    this.Key = key;
+        //    this.Code = CodeBuilder();
+        //}
 
 
         public static SmsState operator++(SmsState o)
@@ -41,5 +51,17 @@ namespace Modeling.LabThree
             o.taktsCount++;
             return o;
         }
+
+        //private String CodeBuilder()
+        //{
+        //    StringBuilder builder = new StringBuilder();
+        //    foreach(SmsElementState state in Key.ElementsStates)
+        //    {
+        //        builder.Append((int)state);
+        //    }
+        //     return builder.ToString();
+        //}
+
+
     }
 }

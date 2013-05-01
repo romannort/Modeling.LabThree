@@ -14,13 +14,13 @@ namespace Modeling.LabThree.Console
             Sms sms = new Sms()
             {
                 ContainerCapacity = 1,
-                TotalCount = 50000,
+                TotalCount = 500000,
                 P1 = 0.7,
                 P2 = 0.7,
                 R = 0.75
             };
 
-            StatisticResults result = sms.Emulate();
+            StatisticResults result = sms.Emulate(true);
             Print(result);
             result.GenerateTransitionsTable("output.table");
         }

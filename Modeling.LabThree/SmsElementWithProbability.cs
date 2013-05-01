@@ -9,53 +9,68 @@ namespace Modeling.LabThree
 {
     public abstract class SmsElementWithProbability : SmsElementBase
     {
+        
         /// <summary>
         /// 
         /// </summary>
-        protected ICollection<Int32> timeIntervals;
+        protected Double Probability { get; set; }
 
         /// <summary>
-        /// 
-        /// </summary>
-        protected Int32 currentTimeInterval = 0;
-
-        /// <summary>
-        /// 
-        /// </summary>
-        protected Int32 nextTimeIntervalIndex = 0;
-
-        /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="probability"></param>
         protected SmsElementWithProbability(Double probability)
         {
-            timeIntervals = ExponentialDistribution.Generate(probability);
+            Probability = probability;
+        }
+
+        public virtual Boolean IsDone
+        {
+            get
+            {
+                return CalculateIsDone();
+            }
+        }
+
+
+        public void SetFree()
+        {
+            State = SmsElementState.Free;
+        }
+
+
+        public void SetBlocked()
+        {
+            State = SmsElementState.Blocked;
+        }
+
+        public Boolean IsBlocked
+        {
+            get
+            {
+                return SmsElementState.Blocked == State;
+            }
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <returns></returns>
-        public virtual Boolean IsDone()
+        protected Boolean CalculateIsDone()
         {
             Boolean result = false;
-            if (currentTimeInterval == 0)
+            if (RandomProbability())
             {
                 result = true;
             }
             return result;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public virtual void UpdateTime()
+        private Boolean RandomProbability()
         {
-            if (State != SmsElementState.Blocked)
-            {
-                currentTimeInterval--;
-            }
+            Double next = RandomGenerator.Next();
+            return next > Probability;
         }
+
     }
 }

@@ -34,96 +34,68 @@ namespace Modeling.LabThree
         /// </summary>
         public UInt32 ContainerCapacity { get; set; }
 
-        public StatisticResults Emulate()
-        {
 
+        public StatisticResults Emulate(bool a)
+        {
             StatisticResults result = new StatisticResults();
-            GeneratorBase.DesiredSize = TotalCount;
             SmsChannelElement channelOne = new SmsChannelElement(this.P1);
             SmsChannelElement channelTwo = new SmsChannelElement(this.P2);
             SmsEmitterElement emitter = new SmsEmitterElement(this.R);
             SmsContainerElement container = new SmsContainerElement(ContainerCapacity);
-
-            UInt32 totalTaktsCount = 0;
-            while (emitter.NoRequests() == false)
+            
+            UInt32 tiks = 0;
+            while (tiks++ != TotalCount)
             {
-                result.Add(container, emitter, channelOne, channelTwo);
 
-                if (channelTwo.State == SmsElementState.Busy &&
-                    channelTwo.IsDone())
+                result.Add(container, emitter, channelOne, channelTwo);
+                if (channelTwo.IsDone)
                 {
-                    channelTwo.State = SmsElementState.Free;
+                    channelTwo.SetFree();
                 }
-                // Container non empty
-                if (container.State != SmsElementState.Free &&
-                    channelTwo.State == SmsElementState.Free)
+
+                if (container.NonEmpty && channelTwo.IsFree)
                 {
                     --container;
                     channelTwo.TakeRequest();
                 }
-                // request in channel One
-                if ((channelOne.State == SmsElementState.Busy && channelOne.IsDone())
-                    || channelOne.State == SmsElementState.Blocked)
+
+                if (channelOne.IsBlocked || channelOne.IsDone)
                 {
-                    // Check channel Two is it free.
-                    if (channelTwo.State == SmsElementState.Free)
+                    if (channelTwo.IsFree)
                     {
+                        channelOne.SetFree();
                         channelTwo.TakeRequest();
-                        channelOne.State = SmsElementState.Free;
                     }
                     else
                     {
-                        if (container.State != SmsElementState.Full)
+                        if (container.NotFull)
                         {
-                            container++;
-                            channelOne.State = SmsElementState.Free;
+                            channelOne.SetFree();
+                            ++container;
                         }
                         else
                         {
-                            channelOne.State = SmsElementState.Blocked;
-                        }
-                    }
-
-                }
-
-
-                if (emitter.IsDone())
-                {
-                    if (channelOne.State == SmsElementState.Free)
-                    {
-                        channelOne.TakeRequest();
-                        emitter.State = SmsElementState.Free;
-                    }
-                    else
-                    {
-                        emitter.State = SmsElementState.Blocked;
-                    }
-                }
-                else
-                {
-                    if (emitter.State == SmsElementState.Blocked)
-                    {
-                        if (channelOne.State == SmsElementState.Free)
-                        {
-                            channelOne.TakeRequest();
-                            emitter.State = SmsElementState.Free;
-                            emitter.EmitRequest(); //___-
-                        }
-                        else
-                        {
-                            emitter.State = SmsElementState.Blocked;
+                            channelOne.SetBlocked();
                         }
                     }
                 }
                 
-                channelOne.UpdateTime();
-                channelTwo.UpdateTime();
-                emitter.UpdateTime();
-                ++totalTaktsCount;
+                if (emitter.IsBlocked || emitter.IsDone) 
+                {
+                    if (channelOne.IsFree)
+                    {
+                        channelOne.TakeRequest();
+                        emitter.SetFree();
+                    }
+                    else
+                    {
+                        emitter.SetBlocked();
+                    }
+                }
+                
             }
-            SmsState.TotalTaktsCount = totalTaktsCount;
+            SmsState.TotalTaktsCount = tiks;
             return result;
         }
-
     }
 }

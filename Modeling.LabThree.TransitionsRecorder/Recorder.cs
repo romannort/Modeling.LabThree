@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modeling.LabThree
+
+namespace Modeling.LabThree.TransitionsRecorder
 {
-    internal interface IStateElement
+    public class Recorder
     {
-        SmsElementState State { get; set; }
+
+
     }
 }

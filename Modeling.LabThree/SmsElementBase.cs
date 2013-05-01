@@ -6,10 +6,15 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public abstract class SmsElementBase: IStateElement
     {
-
-        public SmsElementState State
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual SmsElementState State
         {
             get;
             set;
@@ -21,27 +26,30 @@ namespace Modeling.LabThree
         }
 
         /// <summary>
-        /// Transfers request to the next element/
+        /// Transfers request to the next element.
         /// </summary>
         /// <param name="target">Target element to transfer.</param>
         /// <returns>True if transfer succeed.</returns>
-        public virtual Boolean TransferRequest(SmsElementBase target)
+        //public abstract Boolean TransferRequest(SmsElementBase target);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        private Boolean IsAvailable(SmsElementState state)
         {
-            Boolean result = false;
-            if (target.State != SmsElementState.Blocked &&
-                target.State != SmsElementState.Busy &&
-                target.State != SmsElementState.Full)
-            {
-                target.TakeRequest();
-                result = true;
-            }
-            return result;
+            return state != SmsElementState.Blocked &&
+                state != SmsElementState.Busy &&
+                state != SmsElementState.Full;
         }
 
-
-        protected virtual void TakeRequest()
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void TakeRequest()
         {
-            this.State = SmsElementState.Busy;
+            State = SmsElementState.Busy;
         }
     }
 

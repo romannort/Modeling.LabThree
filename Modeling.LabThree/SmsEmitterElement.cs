@@ -9,35 +9,22 @@ namespace Modeling.LabThree
     public class SmsEmitterElement: SmsElementWithProbability
     {
 
+        public override bool IsDone
+        {
+            get
+            {
+                Boolean result = State == SmsElementState.Free;
+                if (result)
+                {
+                    return base.IsDone;
+                }
+                return result;
+            }
+        }
+
         public SmsEmitterElement(Double probability): base(probability)
         {
-        }
 
-        public void EmitRequest()
-        {
-            currentTimeInterval = timeIntervals.ElementAt(nextTimeIntervalIndex);
-            nextTimeIntervalIndex++;
-        }
-
-        public override bool IsDone()
-        {
-            Boolean result = base.IsDone();
-            
-            if (result)
-            {
-                EmitRequest();
-            }
-            return result;
-        }
-
-        public override void UpdateTime()
-        {
-            --currentTimeInterval;
-        }
-
-        public Boolean NoRequests()
-        {
-            return nextTimeIntervalIndex == timeIntervals.Count;
         }
     }
 }
