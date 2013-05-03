@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modeling.LabThree.SmsElements;
 
 namespace Modeling.LabThree
 {
@@ -15,17 +16,17 @@ namespace Modeling.LabThree
 
         private ISet<SmsState> SmsStates = new HashSet<SmsState>()
         {
-            new SmsState("0000", SmsElementState.Free, SmsElementState.Free, SmsElementState.Free, SmsElementState.Free),
-            new SmsState("0010", SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy, SmsElementState.Free),
-            new SmsState("0001", SmsElementState.Free, SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy),
-            new SmsState("0011", SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy, SmsElementState.Busy),
-            new SmsState("0110", SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Busy, SmsElementState.Free),
-            new SmsState("1001", SmsElementState.Full, SmsElementState.Free, SmsElementState.Free, SmsElementState.Busy),
-            new SmsState("1021", SmsElementState.Full, SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Busy),
-            new SmsState("0111", SmsElementState.Free, SmsElementState.Blocked, SmsElementState.Busy, SmsElementState.Busy),
-            new SmsState("1011", SmsElementState.Full, SmsElementState.Free, SmsElementState.Busy, SmsElementState.Busy),
-            new SmsState("1111", SmsElementState.Full, SmsElementState.Blocked, SmsElementState.Busy, SmsElementState.Busy),
-            new SmsState("1121", SmsElementState.Full, SmsElementState.Blocked, SmsElementState.Blocked, SmsElementState.Busy)
+            //new SmsState("0000", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Free),
+            //new SmsState("0010", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy, SmsElementStateCode.Free),
+            //new SmsState("0001", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy),
+            //new SmsState("0011", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
+            //new SmsState("0110", SmsElementStateCode.Free, SmsElementStateCode.Blocked, SmsElementStateCode.Busy, SmsElementStateCode.Free),
+            //new SmsState("1001", SmsElementStateCode.Full, SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy),
+            //new SmsState("1021", SmsElementStateCode.Full, SmsElementStateCode.Free, SmsElementStateCode.Blocked, SmsElementStateCode.Busy),
+            //new SmsState("0111", SmsElementStateCode.Free, SmsElementStateCode.Blocked, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
+            //new SmsState("1011", SmsElementStateCode.Full, SmsElementStateCode.Free, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
+            //new SmsState("1111", SmsElementStateCode.Full, SmsElementStateCode.Blocked, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
+            //new SmsState("1121", SmsElementStateCode.Full, SmsElementStateCode.Blocked, SmsElementStateCode.Blocked, SmsElementStateCode.Busy)
         };
 
 
@@ -51,14 +52,14 @@ namespace Modeling.LabThree
 
         internal void Add(params IStateElement[] elements)
         {
-            SmsStateKey key = new SmsStateKey(elements.Select(e => e.State).ToList());
+            SmsStateKey key = new SmsStateKey( elements.Select(e => e.GetState()).ToList() );
             SmsState currentState = SmsStates.FirstOrDefault(state => state.Key.Equals(key));
-            //if (currentState == null)
-            //{
-            //    SmsState newState = new SmsState(key);
-            //    currentState = newState;
-            //    SmsStates.Add(newState);
-            //}
+            if (currentState == null)
+            {
+                SmsState newState = new SmsState(key);
+                currentState = newState;
+                SmsStates.Add(newState);
+            }
             ++currentState;
             AddTransition(currentState);
             previousState = currentState;
@@ -71,17 +72,17 @@ namespace Modeling.LabThree
         /// <param name="currentState"></param>
         private void RecordEmitterBlocks(SmsState currentState)
         {
-            int contContent = (Int32)currentState.Key.ElementsStates[0];
-            containerContentLength.Add(contContent < 0 ? 1 : 0);
-            if (currentState.Key.ElementsStates[1] == SmsElementState.Blocked)
+            // container index = 2
+            containerContentLength.Add(currentState.Key.ElementsStates[2].Code);
+            if (currentState.Key.ElementsStates[0].CurrentState == SmsElementStateCode.Blocked)
             {
                 ++emitterBlockedTakts;
             }
         }        
 
-        private IList<SmsElementState> BuildStateKey(ICollection<IStateElement> elements)
+        private IList<SmsElementStateCode> BuildStateKey(ICollection<IStateElement> elements)
         {
-            IList<SmsElementState> key = new List<SmsElementState>();
+            IList<SmsElementStateCode> key = new List<SmsElementStateCode>();
             foreach (IStateElement se in elements)
             {
                 key.Add(se.State);

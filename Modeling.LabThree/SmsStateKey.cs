@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modeling.LabThree.SmsElements;
 
 namespace Modeling.LabThree
 {
@@ -33,12 +34,25 @@ namespace Modeling.LabThree
             }
             for (Int32 i = 0; i < other.ElementsStates.Count; ++i)
             {
-                if (other.ElementsStates[i] != this.ElementsStates[i])
+                if (!other.ElementsStates[i].Equals(this.ElementsStates[i]))
                 {
                     return false;
                 }
             }
-                return true;
+            return true;
+        }
+
+
+        public override int GetHashCode()
+        {
+            int accum = 17;
+
+            foreach (var item in ElementsStates)
+            {
+                accum = accum * 37 + item.GetHashCode();
+            }
+
+            return accum;
         }
     }
 }

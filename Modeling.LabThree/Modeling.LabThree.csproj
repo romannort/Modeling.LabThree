@@ -39,16 +39,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SmsElementState.cs" />
-    <Compile Include="IProbabilityElement.cs" />
-    <Compile Include="IStateElement.cs" />
+    <Compile Include="SmsElements\ICapacityElement.cs" />
+    <Compile Include="SmsElements\SmsElementState.cs" />
+    <Compile Include="SmsElements\SmsElementStateCode.cs" />
+    <Compile Include="SmsElements\IProbabilityElement.cs" />
+    <Compile Include="SmsElements\IStateElement.cs" />
     <Compile Include="Sms.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmsChannelElement.cs" />
-    <Compile Include="SmsElementBase.cs" />
-    <Compile Include="SmsEmitterElement.cs" />
-    <Compile Include="SmsElementWithProbability.cs" />
-    <Compile Include="SmsContainerElement.cs" />
+    <Compile Include="SmsElements\SmsChannelElement.cs" />
+    <Compile Include="SmsElements\SmsElementBase.cs" />
+    <Compile Include="SmsElements\SmsEmitterElement.cs" />
+    <Compile Include="SmsElements\SmsElementWithProbability.cs" />
+    <Compile Include="SmsElements\SmsContainerElement.cs" />
     <Compile Include="SmsState.cs" />
     <Compile Include="SmsStateKey.cs" />
     <Compile Include="StatisticResults.cs" />

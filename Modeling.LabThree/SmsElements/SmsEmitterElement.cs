@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Modeling.LabThree
+namespace Modeling.LabThree.SmsElements
 {
     public class SmsEmitterElement: SmsElementWithProbability
     {
@@ -13,7 +13,7 @@ namespace Modeling.LabThree
         {
             get
             {
-                Boolean result = State == SmsElementState.Free;
+                Boolean result = State == SmsElementStateCode.Free;
                 if (result)
                 {
                     return base.IsDone;
@@ -25,6 +25,13 @@ namespace Modeling.LabThree
         public SmsEmitterElement(Double probability): base(probability)
         {
 
+        }
+
+        public override SmsElementState GetState()
+        {
+            SmsElementState state = base.GetState();
+            state.Code = IsBlocked ? 1 : 0;
+            return state;
         }
     }
 }

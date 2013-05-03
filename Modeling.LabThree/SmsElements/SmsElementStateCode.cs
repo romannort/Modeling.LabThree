@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
-    public enum SmsElementState
+    public enum SmsElementStateCode
     {
         Blocked = -4,
         Busy,

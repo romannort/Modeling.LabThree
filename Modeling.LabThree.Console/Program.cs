@@ -14,7 +14,7 @@ namespace Modeling.LabThree.Console
             Sms sms = new Sms()
             {
                 ContainerCapacity = 1,
-                TotalCount = 500000,
+                TotalCount = 50000,
                 P1 = 0.7,
                 P2 = 0.7,
                 R = 0.75
@@ -46,7 +46,7 @@ namespace Modeling.LabThree.Console
             System.Console.WriteLine("R:");
             sms.R = ReadDouble();
             System.Console.WriteLine("Count:");
-            sms.TotalCount = (UInt32)ReadDouble();
+            sms.TotalCount = (Int32)ReadDouble();
         }
 
         private static Double ReadDouble()

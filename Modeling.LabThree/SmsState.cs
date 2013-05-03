@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modeling.LabThree.SmsElements;
 
 namespace Modeling.LabThree
 {
@@ -29,21 +30,17 @@ namespace Modeling.LabThree
         }
 
 
-        public SmsState( String code, params SmsElementState[] elements ): this(elements)
-        {
-            this.Code = code;
-        }
-
         public SmsState(params SmsElementState[] elements)
         {
             this.Key = new SmsStateKey(elements);
+            this.Code = CodeBuilder();
         }
 
-        //public SmsState(SmsStateKey key)
-        //{
-        //    this.Key = key;
-        //    this.Code = CodeBuilder();
-        //}
+        public SmsState(SmsStateKey key)
+        {
+            this.Key = key;
+            this.Code = CodeBuilder();
+        }
 
 
         public static SmsState operator++(SmsState o)
@@ -52,16 +49,31 @@ namespace Modeling.LabThree
             return o;
         }
 
-        //private String CodeBuilder()
-        //{
-        //    StringBuilder builder = new StringBuilder();
-        //    foreach(SmsElementState state in Key.ElementsStates)
-        //    {
-        //        builder.Append((int)state);
-        //    }
-        //     return builder.ToString();
-        //}
+        private String CodeBuilder()
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (SmsElementState state in Key.ElementsStates)
+            {
+                builder.Append(state.Code);
+            }
+            return builder.ToString();
+        }
 
+
+        public override bool Equals(object obj)
+        {
+            if (obj != null )
+            {
+                SmsState objAsState = obj as SmsState;
+                return objAsState.Code.Equals(Code);
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return Code.GetHashCode();
+        }
 
     }
 }

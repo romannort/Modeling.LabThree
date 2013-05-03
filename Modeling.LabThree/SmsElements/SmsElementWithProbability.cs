@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Modeling.LabThree.Generator;
 
-namespace Modeling.LabThree
+namespace Modeling.LabThree.SmsElements
 {
     public abstract class SmsElementWithProbability : SmsElementBase
     {
@@ -32,23 +32,27 @@ namespace Modeling.LabThree
             }
         }
 
-
-        public void SetFree()
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void SetFree()
         {
-            State = SmsElementState.Free;
+            State = SmsElementStateCode.Free;
         }
 
-
-        public void SetBlocked()
+        /// <summary>
+        /// 
+        /// </summary>
+        public virtual void SetBlocked()
         {
-            State = SmsElementState.Blocked;
+            State = SmsElementStateCode.Blocked;
         }
 
         public Boolean IsBlocked
         {
             get
             {
-                return SmsElementState.Blocked == State;
+                return SmsElementStateCode.Blocked == State;
             }
         }
 

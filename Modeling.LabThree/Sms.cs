@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Modeling.LabThree.SmsElements;
+
 
 namespace Modeling.LabThree
 {
@@ -12,7 +14,7 @@ namespace Modeling.LabThree
         /// <summary>
         /// 
         /// </summary>
-        public UInt32 TotalCount { get; set; }
+        public Int32 TotalCount { get; set; }
 
         /// <summary>
         /// 
@@ -32,7 +34,7 @@ namespace Modeling.LabThree
         /// <summary>
         /// 
         /// </summary>
-        public UInt32 ContainerCapacity { get; set; }
+        public Int32 ContainerCapacity { get; set; }
 
 
         public StatisticResults Emulate(bool a)
