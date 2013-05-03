@@ -13,7 +13,7 @@ namespace Modeling.LabThree.Console
             
             Sms sms = new Sms()
             {
-                ContainerCapacity = 1,
+                ContainerCapacity = 2,
                 TotalCount = 50000,
                 P1 = 0.7,
                 P2 = 0.7,
@@ -58,6 +58,5 @@ namespace Modeling.LabThree.Console
             }
             return result;
         }
-
     }
 }

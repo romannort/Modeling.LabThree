@@ -16,17 +16,6 @@ namespace Modeling.LabThree
 
         private ISet<SmsState> SmsStates = new HashSet<SmsState>()
         {
-            //new SmsState("0000", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Free),
-            //new SmsState("0010", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy, SmsElementStateCode.Free),
-            //new SmsState("0001", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy),
-            //new SmsState("0011", SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
-            //new SmsState("0110", SmsElementStateCode.Free, SmsElementStateCode.Blocked, SmsElementStateCode.Busy, SmsElementStateCode.Free),
-            //new SmsState("1001", SmsElementStateCode.Full, SmsElementStateCode.Free, SmsElementStateCode.Free, SmsElementStateCode.Busy),
-            //new SmsState("1021", SmsElementStateCode.Full, SmsElementStateCode.Free, SmsElementStateCode.Blocked, SmsElementStateCode.Busy),
-            //new SmsState("0111", SmsElementStateCode.Free, SmsElementStateCode.Blocked, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
-            //new SmsState("1011", SmsElementStateCode.Full, SmsElementStateCode.Free, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
-            //new SmsState("1111", SmsElementStateCode.Full, SmsElementStateCode.Blocked, SmsElementStateCode.Busy, SmsElementStateCode.Busy),
-            //new SmsState("1121", SmsElementStateCode.Full, SmsElementStateCode.Blocked, SmsElementStateCode.Blocked, SmsElementStateCode.Busy)
         };
 
 
@@ -62,8 +51,8 @@ namespace Modeling.LabThree
             }
             ++currentState;
             AddTransition(currentState);
-            previousState = currentState;
             RecordEmitterBlocks(currentState);
+            previousState = currentState;
         }
 
         /// <summary>
@@ -72,9 +61,11 @@ namespace Modeling.LabThree
         /// <param name="currentState"></param>
         private void RecordEmitterBlocks(SmsState currentState)
         {
-            // container index = 2
-            containerContentLength.Add(currentState.Key.ElementsStates[2].Code);
-            if (currentState.Key.ElementsStates[0].CurrentState == SmsElementStateCode.Blocked)
+            // hardcode:
+            // container index = 0
+            // emitter index = 1
+            containerContentLength.Add(currentState.Key.ElementsStates[0].Code);
+            if (currentState.Key.ElementsStates[1].CurrentState == SmsElementStateCode.Blocked)
             {
                 ++emitterBlockedTakts;
             }
