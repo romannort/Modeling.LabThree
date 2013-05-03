@@ -7,9 +7,16 @@ using Modeling.LabThree.SmsElements;
 
 namespace Modeling.LabThree
 {
+    /// <summary>
+    /// Key that describes sms state by states of it elements.
+    /// </summary>
     public class SmsStateKey: IEquatable<SmsStateKey>
     {
+        /// <summary>
+        /// States of sms elements.
+        /// </summary>
         public IList<SmsElementState> ElementsStates { get; private set; }
+
 
         public SmsStateKey(ICollection<SmsElementState> elements)
         {
@@ -20,6 +27,8 @@ namespace Modeling.LabThree
             }
         }
 
+
+        #region IEquatable Implementation
 
         public bool Equals(SmsStateKey other)
         {
@@ -49,10 +58,13 @@ namespace Modeling.LabThree
 
             foreach (var item in ElementsStates)
             {
-                accum = accum * 37 + item.GetHashCode();
+                accum = accum * 397 + item.GetHashCode();
             }
 
             return accum;
         }
+
+        #endregion
+
     }
 }

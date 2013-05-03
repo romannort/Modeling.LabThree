@@ -7,11 +7,10 @@ using System.Threading.Tasks;
 namespace Modeling.LabThree.SmsElements
 {
     /// <summary>
-    /// 
+    /// Base class for all sms elements.
     /// </summary>
     public abstract class SmsElementBase: IStateElement
     {
-
         private static Int32 lastId = 0;
 
         public Int32 Id
@@ -21,7 +20,7 @@ namespace Modeling.LabThree.SmsElements
         }
 
         /// <summary>
-        /// 
+        /// Element state.
         /// </summary>
         public virtual SmsElementStateCode State
         {
@@ -36,19 +35,7 @@ namespace Modeling.LabThree.SmsElements
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        private Boolean IsAvailable(SmsElementStateCode state)
-        {
-            return state != SmsElementStateCode.Blocked &&
-                state != SmsElementStateCode.Busy &&
-                state != SmsElementStateCode.Full;
-        }
-
-        /// <summary>
-        /// 
+        /// Updates element state after request taken.
         /// </summary>
         public virtual void TakeRequest()
         {
@@ -56,7 +43,7 @@ namespace Modeling.LabThree.SmsElements
         }
 
         /// <summary>
-        /// 
+        /// Gets information about sms elements.
         /// </summary>
         /// <returns></returns>
         public virtual SmsElementState GetState()

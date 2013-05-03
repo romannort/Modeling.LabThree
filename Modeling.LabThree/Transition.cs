@@ -6,12 +6,18 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree
 {
+    /// <summary>
+    /// Describe transition from one SmsState to another
+    /// </summary>
     public class Transition: IEquatable<Transition>
     {
+
         public SmsState From { get; set; }
 
         public SmsState To { get; set; }
 
+
+        #region IEquatable Implementation
         public bool Equals(Transition other)
         {
             return other.From.Code == this.From.Code &&
@@ -20,7 +26,9 @@ namespace Modeling.LabThree
 
         public override int GetHashCode()
         {
-            return (this.From.Code.GetHashCode() / 37) * (this.To.Code.GetHashCode() / 59);
+            int hashCode = (this.From.Code.GetHashCode() * 397) ^ this.To.Code.GetHashCode();
+            return hashCode;
         }
+        #endregion
     }
 }

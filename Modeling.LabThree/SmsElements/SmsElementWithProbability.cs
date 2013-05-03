@@ -10,15 +10,8 @@ namespace Modeling.LabThree.SmsElements
     public abstract class SmsElementWithProbability : SmsElementBase
     {
         
-        /// <summary>
-        /// 
-        /// </summary>
         protected Double Probability { get; set; }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="probability"></param>
         protected SmsElementWithProbability(Double probability)
         {
             Probability = probability;
@@ -33,7 +26,7 @@ namespace Modeling.LabThree.SmsElements
         }
 
         /// <summary>
-        /// 
+        /// Marks sms element as free.
         /// </summary>
         public virtual void SetFree()
         {
@@ -41,13 +34,14 @@ namespace Modeling.LabThree.SmsElements
         }
 
         /// <summary>
-        /// 
+        /// Mark sms element as blocked.
         /// </summary>
         public virtual void SetBlocked()
         {
             State = SmsElementStateCode.Blocked;
         }
 
+        
         public Boolean IsBlocked
         {
             get
@@ -56,10 +50,7 @@ namespace Modeling.LabThree.SmsElements
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        
         protected Boolean CalculateIsDone()
         {
             Boolean result = false;
@@ -70,6 +61,10 @@ namespace Modeling.LabThree.SmsElements
             return result;
         }
 
+        /// <summary>
+        /// Emulate element work with given probability.
+        /// </summary>
+        /// <returns>Boolean result if sms elements works on current state or not.</returns>
         private Boolean RandomProbability()
         {
             Double next = RandomGenerator.Next();

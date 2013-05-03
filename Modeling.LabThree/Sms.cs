@@ -11,33 +11,38 @@ namespace Modeling.LabThree
 {
     public class Sms
     {
+        public static UInt32 TotalTaktsCount;
+        
         /// <summary>
-        /// 
+        /// Total count of takts for emulating.
         /// </summary>
         public Int32 TotalCount { get; set; }
 
         /// <summary>
-        /// 
+        /// Probablity for 1st pipe.
         /// </summary>
         public Double P1 { get; set; }
 
         /// <summary>
-        /// 
+        /// Probability for 2nd pipe.
         /// </summary>
         public Double P2 { get; set; }
 
         /// <summary>
-        /// 
+        /// Probability for emitter.
         /// </summary>
         public Double R { get; set; }
 
         /// <summary>
-        /// 
+        /// Container capacity.
         /// </summary>
         public Int32 ContainerCapacity { get; set; }
 
-
-        public StatisticResults Emulate(bool a)
+        /// <summary>
+        /// Starts emulating process.
+        /// </summary>
+        /// <returns>Statistics for current run.</returns>
+        public StatisticResults Emulate()
         {
             StatisticResults result = new StatisticResults();
             SmsChannelElement channelOne = new SmsChannelElement(this.P1);
@@ -96,7 +101,7 @@ namespace Modeling.LabThree
                 }
                 
             }
-            SmsState.TotalTaktsCount = tiks;
+            Sms.TotalTaktsCount = tiks;
             return result;
         }
     }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Modeling.LabThree.SmsElements
 {
+
     public class SmsContainerElement : SmsElementBase, ICapacityElement
     {
 
@@ -97,15 +98,12 @@ namespace Modeling.LabThree.SmsElements
         {
             if (currentCapacity == maxCapacity)
             {
-                //return possibleStates.Last(); // FULL
                 return SmsElementStateCode.Full;
             }
             if (currentCapacity == 0)
             {
-                //return possibleStates.First();
                 return SmsElementStateCode.Free;
             }
-            //return possibleStates[(int)currentCapacity];
             return SmsElementStateCode.NotFull;
         }
 

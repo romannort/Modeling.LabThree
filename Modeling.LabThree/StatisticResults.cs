@@ -8,17 +8,20 @@ using Modeling.LabThree.SmsElements;
 
 namespace Modeling.LabThree
 {
+    /// <summary>
+    /// Collects statistics during sms run.
+    /// </summary>
     public class StatisticResults
     {
+
         private UInt32 emitterBlockedTakts = 0;
 
         private ICollection<Int32> containerContentLength = new List<Int32>();
 
-        private ISet<SmsState> SmsStates = new HashSet<SmsState>()
-        {
-        };
+        private ISet<SmsState> SmsStates = new HashSet<SmsState>();
 
-
+        private SmsState previousState;
+        
         public Double AverageContainerContent
         {
             get
@@ -27,18 +30,18 @@ namespace Modeling.LabThree
             }
         }
 
-
         public Double EmitterBlockingProbability
         {
             get
             {
-                return (Double)emitterBlockedTakts / SmsState.TotalTaktsCount;
+                return (Double)emitterBlockedTakts / Sms.TotalTaktsCount;
             }
         }
 
-
-        private SmsState previousState;
-
+        /// <summary>
+        /// Records data about current state.
+        /// </summary>
+        /// <param name="elements">Array of sms elements.</param>
         internal void Add(params IStateElement[] elements)
         {
             SmsStateKey key = new SmsStateKey( elements.Select(e => e.GetState()).ToList() );
@@ -51,15 +54,15 @@ namespace Modeling.LabThree
             }
             ++currentState;
             AddTransition(currentState);
-            RecordEmitterBlocks(currentState);
+            RecordTargetStatistics(currentState);
             previousState = currentState;
         }
 
         /// <summary>
-        /// 
+        /// Record statistics for specific variant. Now it's for #22's.
         /// </summary>
-        /// <param name="currentState"></param>
-        private void RecordEmitterBlocks(SmsState currentState)
+        /// <param name="currentState">Current state.</param>
+        private void RecordTargetStatistics(SmsState currentState)
         {
             // hardcode:
             // container index = 0
@@ -71,6 +74,11 @@ namespace Modeling.LabThree
             }
         }        
 
+        /// <summary>
+        /// Builds StateKey object from collection of sms elements.
+        /// </summary>
+        /// <param name="elements">Sms elements collection.</param>
+        /// <returns>Appropriate state key.</returns>
         private IList<SmsElementStateCode> BuildStateKey(ICollection<IStateElement> elements)
         {
             IList<SmsElementStateCode> key = new List<SmsElementStateCode>();
@@ -81,6 +89,10 @@ namespace Modeling.LabThree
             return key;
         }
 
+        /// <summary>
+        /// Returns probabilities for each state.
+        /// </summary>
+        /// <returns>Dictionary with state codes and probabilities.</returns>
         public IDictionary<String, Double> StateProbabilities()
         {
             IDictionary<String, Double> result = new Dictionary<String, Double>();
@@ -91,8 +103,18 @@ namespace Modeling.LabThree
             return result;
         }
 
+        #region Transitions
+
+        /// <summary>
+        /// Possible transitions.
+        /// </summary>
         private ISet<Transition> possibleTransitions = new HashSet<Transition>();
 
+        
+        /// <summary>
+        /// Writes transition rable to file.
+        /// </summary>
+        /// <param name="filePath">Path to file.</param>
         public void GenerateTransitionsTable(String filePath)
         {
             IList<String> output = new List<String>();
@@ -121,6 +143,8 @@ namespace Modeling.LabThree
             }
             );
         }
+        #endregion
+        
     }
 }
 

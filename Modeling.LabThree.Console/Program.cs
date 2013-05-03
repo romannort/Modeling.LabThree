@@ -13,14 +13,14 @@ namespace Modeling.LabThree.Console
             
             Sms sms = new Sms()
             {
-                ContainerCapacity = 2,
+                ContainerCapacity = 1,
                 TotalCount = 50000,
                 P1 = 0.7,
                 P2 = 0.7,
                 R = 0.75
             };
-
-            StatisticResults result = sms.Emulate(true);
+            //CustomParameters(sms);
+            StatisticResults result = sms.Emulate();
             Print(result);
             result.GenerateTransitionsTable("output.table");
         }
@@ -37,6 +37,10 @@ namespace Modeling.LabThree.Console
             System.Console.WriteLine("Average container content: {0}", result.AverageContainerContent);
         }
 
+        /// <summary>
+        /// Allow entering custom parameters from Console.
+        /// </summary>
+        /// <param name="sms">Sms to modify.</param>
         private static void CustomParameters(Sms sms)
         {
             System.Console.WriteLine("P1:");
